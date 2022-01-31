@@ -19,6 +19,6 @@ namespace BoardR
             {
                 throw new InvalidOperationException("Item already exists!");
             }
-        }     
+        }
     }
 }

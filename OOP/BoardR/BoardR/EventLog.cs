@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BoardR
 {
-    class EventLog
+    public class EventLog
     {
         private DateTime time = DateTime.Now;
         private static List<EventLog> log = new List<EventLog>();
@@ -28,7 +28,7 @@ namespace BoardR
             return $"[{this.Time:yyyyMMdd|HH:mm:ss.ffff}]{this.Description}";
         }
 
-        public void Add(EventLog logItem)
+        protected void Add(EventLog logItem)
         {
             log.Add(logItem);
         }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace BoardR
 {
-    public class BoardItem
+    public abstract class BoardItem
     {
         //title - describes what this item is about;
         //dueDate - by when it should be finished;
@@ -14,8 +14,6 @@ namespace BoardR
         private DateTime dueDate;
         private Status status = Status.Open;
         protected List<EventLog> eventLogs = new List<EventLog>();
-        private const int TITLE_MIN_VALUE = 5;
-        private const int TITLE_MAX_VALUE = 30;
 
         public BoardItem(string title, DateTime dueDate)
         {
@@ -35,7 +33,7 @@ namespace BoardR
                     throw new NullReferenceException();
                 }
 
-                else if (value.Length < TITLE_MIN_VALUE || value.Length > TITLE_MAX_VALUE || string.IsNullOrEmpty(value))
+                else if (value.Length < Constants.NAME_MIN_VALUE || value.Length > Constants.NAME_MAX_VALUE || string.IsNullOrEmpty(value))
                 {
                     throw new Exception("Title length must be between 5 and 30 characters!");
                 }
@@ -67,34 +65,9 @@ namespace BoardR
 
         public Status Status { get; set; }
 
-        public void RevertStatus()
-        {
-            if (this.Status == Status.Open)
-            {
-                this.eventLogs.Add(new EventLog("Can't revert, already at Open"));
+        public abstract void RevertStatus();
 
-                return;
-            }
-
-            string currentStatus = this.Status.ToString();
-            this.Status--;
-
-            eventLogs.Add(new EventLog($"Status changed from {currentStatus} to {this.Status.ToString()}"));
-        }
-
-        public void AdvanceStatus()
-        {
-            if (this.Status == Status.Verified)
-            {
-                this.eventLogs.Add(new EventLog("Can't advance, already at Verified"));
-                return;
-            }
-
-            string currentStatus = this.Status.ToString();
-            this.Status++;
-
-            this.eventLogs.Add(new EventLog($"Status changed from {currentStatus} to {this.Status.ToString()}"));
-        }
+        public abstract void AdvanceStatus();     
 
         public virtual string ViewInfo()
         {
@@ -111,6 +84,6 @@ namespace BoardR
             }
 
             return sb.ToString().TrimEnd();
-        }
+        }      
     }
 }

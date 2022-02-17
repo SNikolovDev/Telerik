@@ -9,6 +9,7 @@ namespace BoardR
         //title - describes what this item is about;
         //dueDate - by when it should be finished;
         //status - describes the state of this item - being worked on, being completed, etc..;
+        private const string DateFormat = "dd-MM-yyyy";
 
         private string title;
         private DateTime dueDate;
@@ -20,7 +21,7 @@ namespace BoardR
             //this.eventLogs = new List<EventLog>();
             this.Title = title;
             this.dueDate = dueDate;
-            this.Status = status;
+            //this.Status = status;
         }
 
         public string Title
@@ -43,47 +44,50 @@ namespace BoardR
                     this.eventLogs.Add(new EventLog($"Title changed from '{this.title}' to '{value}'"));
                 }
 
+
                 this.title = value;
             }
         }
+
+        public List<EventLog> EventLog => new List<EventLog>(this.eventLogs);
 
         public DateTime DueDate
         {
             get => this.dueDate;
             set
-            {   // must be in the future;
-                if (value <= DateTime.Now)
+            {   // Can't be in the past;
+                if (value < DateTime.Now)
                 {
-                    throw new Exception("Time and date must be in the future!");
+                    throw new Exception("DueDate can't be in the past");
                 }
 
-                eventLogs.Add(new EventLog($"DueDate changed from '{this.dueDate}' to '{value}'"));
+                this.eventLogs.Add(new EventLog($"DueDate changed from '{this.dueDate.ToString()}' to '{value.ToString(DateFormat)}'"));
 
                 this.dueDate = value;
             }
         }
 
-        public Status Status { get; set; }
+        public Status Status => this.status;
 
         public abstract void RevertStatus();
 
-        public abstract void AdvanceStatus();     
+        public abstract void AdvanceStatus();
 
         public virtual string ViewInfo()
         {
-            return $"'{this.Title}', [{this.Status}|{DueDate:dd-MM-yyyy}]";
+            return $"'{this.Title}', [{this.Status}|{this.DueDate:dd-MM-yyyy}]";
         }
 
         public string ViewHistory()
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (var log in eventLogs)
+            foreach (var log in this.eventLogs)
             {
                 sb.AppendLine(log.ViewInfo());
             }
 
             return sb.ToString().TrimEnd();
-        }      
+        }
     }
 }

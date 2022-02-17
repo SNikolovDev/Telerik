@@ -10,7 +10,7 @@ namespace BoardR
             : base(title, dueDate)
         {
             base.Status = Status.Todo;
-            this.assignee = assignee;
+            this.Assignee = assignee;
             base.eventLogs.Add(new EventLog($"Created Task: {base.ViewInfo()}"));
         }
 
@@ -60,7 +60,7 @@ namespace BoardR
             string currentStatus = this.Status.ToString();
             this.Status--;
 
-            eventLogs.Add(new EventLog($"Task changed from {currentStatus} to {this.Status.ToString()}"));
+            this.eventLogs.Add(new EventLog($"Task changed from {currentStatus} to {this.Status.ToString()}"));
         }
 
         public override string ViewInfo()

@@ -10,7 +10,7 @@ namespace BoardR
             : base(title, dueDate)
         {
             //base.Status = Status.Open;
-            this.description = description;
+            this.Description = description;
             this.eventLogs.Add(new EventLog($"Created Issue: {this.ViewInfo()}"));
         }
 
@@ -27,7 +27,7 @@ namespace BoardR
                 }
                 else
                 {
-                    eventLogs.Add(new EventLog(this.ViewInfo()));
+                    this.eventLogs.Add(new EventLog(this.ViewInfo()));
 
                     this.description = value;
                 }
@@ -38,37 +38,26 @@ namespace BoardR
         {
             if (this.Status == Status.Verified)
             {
-                eventLogs.Add(new EventLog($"Issue status already {this.Status.ToString()}"));
+                this.eventLogs.Add(new EventLog($"Issue status already {this.Status.ToString()}"));
             }
             else
             {
-                eventLogs.Add(new EventLog($"Issue status set to {this.Status + 4}"));//mooving status from 0 to 4 position;
+                this.eventLogs.Add(new EventLog($"Issue status set to {this.Status + 4}"));//mooving status from 0 to 4 position;
                 this.Status = Status.Verified;
             }
         }
-
-
-        //    string currentStatus = this.Status.ToString();
-        //    this.Status = Status.Verified;
-
-        //    this.eventLogs.Add(new EventLog($"Status changed from {currentStatus} to {this.Status.ToString()}"));
-        //
 
         public override void RevertStatus()
         {
             if (this.Status == Status.Open)
             {
-                eventLogs.Add(new EventLog($"Issue status already {this.Status.ToString()}"));
+                this.eventLogs.Add(new EventLog($"Issue status already {this.Status.ToString()}"));
             }
             else
             {
-                eventLogs.Add(new EventLog($"Issue status set to {this.Status - 4}"));//mooving status from 4 to 0 position;
+                this.eventLogs.Add(new EventLog($"Issue status set to {this.Status - 4}"));//mooving status from 4 to 0 position;
                 this.Status = Status.Open;
             }
-
-            //string currentStatus = this.Status.ToString();
-
-            //eventLogs.Add(new EventLog($"Status changed from {currentStatus} to {this.Status.ToString()}"));
         }
 
         public override string ViewInfo()

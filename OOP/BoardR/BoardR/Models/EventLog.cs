@@ -28,7 +28,7 @@ namespace BoardR
             return $"[{this.Time:yyyyMMdd|HH:mm:ss.ffff}]{this.Description}";
         }
 
-        protected void Add(EventLog logItem)
+        public void Add(EventLog logItem)
         {
             log.Add(logItem);
         }
